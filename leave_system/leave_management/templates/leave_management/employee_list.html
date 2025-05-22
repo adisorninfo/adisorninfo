@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Employees - Leave Management System{% endblock %}
+
+{% block content %}
+<h1>Employee List</h1>
+<a href="{% url 'leave_management:employee_create' %}">Add New Employee</a>
+<table>
+    <thead>
+        <tr>
+            <th>Employee ID</th>
+            <th>Name (Username)</th>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Supervisor</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emp in employees %}
+        <tr>
+            <td>{{ emp.employee_id }}</td>
+            <td>{{ emp.user.get_full_name|default:emp.user.username|default:"N/A" }}</td>
+            <td>{{ emp.department.name|default:"N/A" }}</td>
+            <td>{{ emp.position }}</td>
+            <td>{{ emp.supervisor.user.username|default:"N/A" }}</td>
+            <td>
+                <a href="{% url 'leave_management:employee_update' pk=emp.pk %}">Edit</a>
+                <a href="#">Delete</a> {# Placeholder for delete link #}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No employees found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
